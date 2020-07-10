@@ -12,7 +12,10 @@ require("dotenv").config();
 
 ReactGa.initialize(`${process.env.REACT_APP_GOOGLE_ANALYTICS}`);
 ReactGa.pageview(window.location.pathname + window.location.search);
-LogRocket.init(`${process.env.REACT_APP__LOG_ROCKET_ID}/react-drum-maschine`);
+LogRocket.init(`${process.env.REACT_APP_LOG_ROCKET_ID}/react-drum-maschine`);
+
+const SoundsContext = React.createContext({});
+export const SoundConsumer = SoundsContext.Consumer;
 
 const Button = styled.button`
   background: #444;
@@ -110,35 +113,9 @@ class App extends Component {
             <div className="app-panel__controls">.</div>
             <div className="app-panel__controls">
               <div>
-                {!pads
-                  ? "Loading..."
-                  : pads.map((sound: any, index) => {
-                      return !sound
-                        ? ""
-                        : sound.map((item: any) => {
-                            return (
-                              <>
-                                <Button
-                                  onClick={e => this.handleClick(e)}
-                                  onKeyDown={e => this.handleKeyDown(e)}
-                                  onKeyPress={e => this.handleKeyDown(e)}
-                                  key={item.id}
-                                  data-key={item.keyCode}
-                                  className="pad-button"
-                                >
-                                  <span className="pad-button-char">
-                                    {item.keyChar}
-                                  </span>
-                                  <audio
-                                    key={item.keyCode}
-                                    src={item.src}
-                                    data-key={item.keyCode}
-                                  />
-                                </Button>
-                              </>
-                            );
-                          });
-                    })}
+                <SoundsContext.Provider value={pads}>
+                  <div className="pad">pad</div>
+                </SoundsContext.Provider>
               </div>
             </div>
           </section>
