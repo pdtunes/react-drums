@@ -22,15 +22,13 @@ export interface AppProps {
   onClick: () => void;
   onKeyDown: () => void;
   onKeyPress: () => void;
-  sounds: object;
 }
 
 class App extends Component {
   constructor(props: AppProps) {
     super(props);
     this.state = {
-      kit: [],
-      sounds: {}
+      kit: []
     };
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -92,24 +90,24 @@ class App extends Component {
   }
 
   render() {
-    const pads = this.setSoundPanel();
+    const kit = this.setSoundPanel();
     return (
       <>
-        <div className="app">
-          <Cable />
-          <Header />
-          <section className="app-panel">
-            <div className="app-panel__controls">.</div>
-            <div className="app-panel__controls">
-              <div>
-                <SoundsContext.Provider value={pads}>
-                  <DrumPadPanel />
-                </SoundsContext.Provider>
+        <SoundsContext.Provider value={kit}>
+          <div className="app">
+            <Cable />
+            <Header />
+            <section className="app-panel">
+              <div className="app-panel__controls">.</div>
+              <div className="app-panel__controls">
+                <div>
+                  <DrumPadPanel value={kit} />
+                </div>
               </div>
-            </div>
-          </section>
-        </div>
-        <Footer />
+            </section>
+          </div>
+          <Footer />
+        </SoundsContext.Provider>
       </>
     );
   }
