@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 
 const Button = styled.button`
   background: #444;
@@ -11,4 +12,8 @@ const Button = styled.button`
   box-shadow: -2px 2px 2px rgba(0, 0, 0, 0.4);
 `;
 
-export const Pad = () => {};
+const Pad = () => {
+  return <Button>.</Button>;
+};
+
+export default Pad;

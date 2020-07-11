@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import ReactGa from "react-ga";
 import LogRocket from "logrocket";
 import _ from "lodash";
-import styled from "styled-components";
 import { getDrumKitByName } from "./data/drums";
 import Header from "./components/header";
+import DrumPadPanel from "./components/drumPadPanel";
 import Footer from "./components/footer";
 import Cable from "./components/common/cable";
 
@@ -16,17 +16,6 @@ LogRocket.init(`${process.env.REACT_APP_LOG_ROCKET_ID}/react-drum-maschine`);
 
 const SoundsContext = React.createContext({});
 export const SoundConsumer = SoundsContext.Consumer;
-
-const Button = styled.button`
-  background: #444;
-  border-radius: 3px;
-  padding: 1rem;
-  border: none;
-  height: 68px;
-  width: 100%;
-  cursor: pointer;
-  box-shadow: -2px 2px 2px rgba(0, 0, 0, 0.4);
-`;
 
 export interface AppProps {
   kit: object[];
@@ -114,7 +103,7 @@ class App extends Component {
             <div className="app-panel__controls">
               <div>
                 <SoundsContext.Provider value={pads}>
-                  <div className="pad">pad</div>
+                  <DrumPadPanel />
                 </SoundsContext.Provider>
               </div>
             </div>
