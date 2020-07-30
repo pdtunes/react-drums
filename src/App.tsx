@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
+import { SoundProvider } from "./context/SoundBankContext";
 import ReactGa from "react-ga";
 import LogRocket from "logrocket";
 import _ from "lodash";
@@ -14,9 +15,6 @@ ReactGa.initialize(`${process.env.REACT_APP_GOOGLE_ANALYTICS}`);
 ReactGa.pageview(window.location.pathname + window.location.search);
 LogRocket.init(`${process.env.REACT_APP_LOG_ROCKET_ID}/react-drum-maschine`);
 
-const SoundsContext = React.createContext({});
-export const SoundConsumer = SoundsContext.Consumer;
-
 export interface AppProps {
   kit: object[];
   onClick: () => void;
@@ -24,93 +22,27 @@ export interface AppProps {
   onKeyPress: () => void;
 }
 
-class App extends Component {
-  constructor(props: AppProps) {
-    super(props);
-    this.state = {
-      kit: []
-    };
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-  }
+const App = (props: any) => {
+  const [sounds, setSounds] = useState({});
+  const kitName = "808";
+  const kit = getDrumKitByName(kitName);
+  setSounds(kit);
 
-  componentDidMount() {
-    const kitName = "808";
-    this.setState({ kit: getDrumKitByName(kitName) });
-    document.addEventListener("keydown", this.handleKeyDown);
-    document.addEventListener("click", this.handleClick);
-  }
-
-  getAppData = () => {
-    return { kit: this.state };
-  };
-
-  handleClick = (e: any) => {
-    const key = e.target.dataset.key;
-    const pad = document.querySelector(
-      `button[data-key="${key}"]`
-    ) as HTMLButtonElement;
-
-    const audio = document.querySelector(
-      `audio[data-key="${key}"]`
-    ) as HTMLAudioElement;
-
-    if (!audio) return;
-
-    audio.currentTime = 0;
-    audio.play();
-    pad.classList.add("playing");
-  };
-
-  handleKeyDown = (e: any) => {
-    const key = e.keyCode || e.charCode;
-    const pad = document.querySelector(
-      `button[data-key="${key}"]`
-    ) as HTMLButtonElement;
-    const audio = document.querySelector(
-      `audio[data-key="${key}"]`
-    ) as HTMLAudioElement;
-
-    if (!audio) return;
-
-    audio.currentTime = 0;
-    audio.play();
-    pad.classList.add("playing");
-  };
-
-  setSoundPanel() {
-    const { kit } = this.getAppData();
-    const allSounds: object[] = Object.entries(kit).map(
-      ([key, value]: any, index) => {
-        return value["sounds"];
-      }
-    );
-    const cleanedSounds = _.compact(allSounds);
-    return cleanedSounds;
-  }
-
-  render() {
-    const kit = this.setSoundPanel();
-    return (
-      <>
-        <SoundsContext.Provider value={kit}>
-          <div className="app">
-            <Cable />
-            <Header />
-            <section className="app-panel">
-              <div className="app-panel__controls">.</div>
-              <div className="app-panel__controls">
-                <div>
-                  <DrumPadPanel value={kit} />
-                </div>
-              </div>
-            </section>
+  return (
+    <>
+      <div className="app">
+        <Cable />
+        <Header />
+        <section className="app-panel">
+          <div className="app-panel__controls">.</div>
+          <div className="app-panel__controls">
+            <div>app</div>
           </div>
-          <Footer />
-        </SoundsContext.Provider>
-      </>
-    );
-  }
-}
+        </section>
+      </div>
+      <Footer />
+    </>
+  );
+};
 
 export default App;

@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { SoundConsumer } from "../../App";
 
 const Button = styled.button`
   background: #444;
@@ -13,14 +12,6 @@ const Button = styled.button`
   box-shadow: -2px 2px 2px rgba(0, 0, 0, 0.4);
 `;
 
-const Pad = (sound: any) => (
-  <SoundConsumer>
-    {
-      (sound) => (
-        <Button>.</Button>
-      )
-    }
-  </SoundConsumer>
-);
+const Pad = () => <Button>.</Button>;
 
 export default Pad;
